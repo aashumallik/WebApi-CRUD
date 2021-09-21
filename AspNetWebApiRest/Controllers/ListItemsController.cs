@@ -37,7 +37,7 @@ namespace AspNetWebApiRest.Controllers
             }
             //
             var maxId = 0;
-            //Calculates the next available ID
+            //Calculates the next available ID if the count is bigger than 0
             if (_listItems.Count > 0)
             {
                 maxId = _listItems.Max(x => x.Id);
