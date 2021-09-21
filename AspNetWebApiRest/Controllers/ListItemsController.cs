@@ -32,15 +32,20 @@ namespace AspNetWebApiRest.Controllers
         {
             if (string.IsNullOrEmpty(model?.Text))
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                //Returns a Bad Request response if the list item Text property is missing or blank
+                return Request.CreateResponse(HttpStatusCode.BadRequest); 
             }
+            //
             var maxId = 0;
+            //Calculates the next available ID
             if (_listItems.Count > 0)
             {
                 maxId = _listItems.Max(x => x.Id);
             }
             model.Id = maxId + 1;
+            //Assigns the ID and adds the item to the list
             _listItems.Add(model);
+            //Returns the whole item (including the new id) in the response body, along with a Created status code
             return Request.CreateResponse(HttpStatusCode.Created, model);
         }
 
