@@ -28,10 +28,20 @@ namespace AspNetWebApiRest.Controllers
             return Request.CreateResponse(HttpStatusCode.NotFound);
         }
         // POST api/<controller>
-        public void Post([FromBody] CustomListItem model)
+        public HttpResponseMessage Post([FromBody] CustomListItem model)
         {
+            if (string.IsNullOrEmpty(model?.Text))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+            var maxId = 0;
+            if (_listItems.Count > 0)
+            {
+                maxId = _listItems.Max(x => x.Id);
+            }
+            model.Id = maxId + 1;
             _listItems.Add(model);
-           // return Request.CreateResponse(HttpStatusCode.Created, model);
+            return Request.CreateResponse(HttpStatusCode.Created, model);
         }
 
         // PUT api/<controller>/5
